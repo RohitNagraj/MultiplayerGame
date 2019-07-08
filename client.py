@@ -17,7 +17,7 @@ class Player:
     """
     Main player class to control all player functions
     """
-    
+
     def __init__(self, x, y, width, height, color):
 
         """
