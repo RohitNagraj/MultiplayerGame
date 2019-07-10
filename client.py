@@ -37,7 +37,7 @@ class Player:
         self.height = height
         self.color = color
         self.rect = (x, y, width, height)
-        self.vel = 0.5
+        self.vel = 3
 
     def draw(self, win):
         """
@@ -96,7 +96,7 @@ def read_pos(pos):
     :param pos: string data
     :return: position tuple
     """
-    pos = pos.strip(',')
+    pos = pos.split(',')
     return int(pos[0]), int(pos[1])
 
 
@@ -106,7 +106,7 @@ def make_pos(tup):
     :param tup: tuple data
     :return: string data
     """
-    return str(tup[0] + ',' + tup[1])
+    return str(tup[0]) + ',' + str(tup[1])
 
 
 def main():
@@ -125,7 +125,8 @@ def main():
         clock.tick(60)
 
         # Send position of p1. It returns position of p2.
-        p2pos = read_pos(n.send((p1.x, p1.y)))
+        p2pos = read_pos(n.send(make_pos((p1.x, p1.y))))
+
         # Update the position of p2 accordingly
         p2.x = p2pos[0]
         p2.y = p2pos[1]

@@ -9,7 +9,7 @@ port = 5555
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 try:
-    s.bind((server, port))
+    s.bind(('', port))
 
 except socket.error as e:
     str(e)
@@ -33,18 +33,22 @@ def threaded_client(conn, player):
     reply = ""
     while True:
         try:
-            data = read_pos(conn.recv(2048))
+            data = read_pos(conn.recv(2048).decode())
+            pos[player] = data
 
             if not data:
                 print('Disconnected')
                 break
             else:
-                print("Recieved: ", reply)
+                reply = make_pos(pos[1 - player])
+
+                print("Recieved: ", data)
                 print("Sending: ", reply)
 
-            conn.sendall(str.encode(reply))
+                conn.sendall(str.encode(reply))
 
-        except:
+        except socket.error as e:
+            print(e)
             break
     print("Lost connection")
     conn.close()
@@ -56,7 +60,7 @@ def read_pos(pos):
     :param pos: string data
     :return: position tuple
     """
-    pos = pos.strip(',')
+    pos = pos.split(',')
     return int(pos[0]), int(pos[1])
 
 
@@ -66,7 +70,7 @@ def make_pos(tup):
     :param tup: tuple data
     :return: string data
     """
-    return str(tup[0] + ',' + tup[1])
+    return str(tup[0]) + ',' + str(tup[1])
 
 
 current_player = 0
