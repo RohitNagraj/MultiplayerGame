@@ -1,4 +1,4 @@
-# Sockets With Python
-A simple demo program that has a socket server that can handle 2 clients
-The clients, in this case, are 2 players in a pygame, which are simple squares.
-When one client moves his player, it is reflected in real-time to the other client as well.
+# Sockets With Python \n
+A simple demo program that has a socket server that can handle 2 clients \n
+The clients, in this case, are 2 players in a pygame, which are simple squares \n
+When one client moves his player, it is reflected in real-time to the other client as well \n
