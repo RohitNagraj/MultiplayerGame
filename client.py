@@ -1,7 +1,6 @@
 import pygame
 
 from network import Network
-from player import Player
 
 # Dimensions of the screen
 width = 500
@@ -36,11 +35,15 @@ def main():
 
     # Create a new client
     n = Network()
+
+    # Get initial state of Player1
     p1 = n.get_p()
+
     while run:
 
         clock.tick(60)
 
+        # Send the state of Player1 and receive state of Player2
         p2 = n.send(p1)
 
         # To check if the game has to be quit
