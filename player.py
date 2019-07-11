@@ -3,7 +3,7 @@ import pygame
 
 class Player:
     """
-    Main player class to control all player functions
+    Main player class to control all player state & functions
     """
 
     def __init__(self, x, y, width, height, color):
