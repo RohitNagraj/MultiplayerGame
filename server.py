@@ -20,6 +20,7 @@ except socket.error as e:
 s.listen(2)
 print("Server started. Waiting for connection")
 
+# List to hold player class objects
 players = [Player(0, 0, 50, 50, (255, 0, 0)), Player(100, 100, 50, 50, (0, 0, 255))]
 
 
@@ -35,6 +36,7 @@ def threaded_client(conn, player):
     reply = ""
     while True:
         try:
+            # Receive state of this thread's player
             data = pickle.loads(conn.recv(2048))
             players[player] = data
 
@@ -42,6 +44,7 @@ def threaded_client(conn, player):
                 print('Disconnected')
                 break
             else:
+                # Send state of the other player
                 reply = players[1 - player]
 
                 print("Recieved: ", data)
