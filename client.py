@@ -12,9 +12,6 @@ win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Client")  # Title of the window
 
 
-# To hold no. of clients created
-clientNumber = 0
-
 # To count the no. of frames
 clock = pygame.time.Clock()
 
@@ -33,47 +30,16 @@ def redraw_window(player1, player2, win):
     pygame.display.update()    # update the window to display the changes
 
 
-def read_pos(pos):
-    """
-    Converts string data coming from server to tuple
-    :param pos: string data
-    :return: position tuple
-    """
-    pos = pos.split(',')
-    return int(pos[0]), int(pos[1])
-
-
-def make_pos(tup):
-    """
-    Converts tuple data from client to sendable server string
-    :param tup: tuple data
-    :return: string data
-    """
-    return str(tup[0]) + ',' + str(tup[1])
-
-
 def main():
 
     run = True
 
     # Create a new client
     n = Network()
-    start_pos = read_pos(n.get_pos())    # Gets the starting position of that client from server
-
-    p1 = Player(start_pos[0], start_pos[1], 100, 100, (0, 255, 0))    # Define the player at that starting position
-    p2 = Player(0, 0, 100, 100, (0, 255, 0))    # Defines player 2 at its position
 
     while run:
 
         clock.tick(60)
-
-        # Send position of p1. It returns position of p2.
-        p2pos = read_pos(n.send(make_pos((p1.x, p1.y))))
-
-        # Update the position of p2 accordingly
-        p2.x = p2pos[0]
-        p2.y = p2pos[1]
-        p2.update()
 
         # To check if the game has to be quit
         for event in pygame.event.get():
