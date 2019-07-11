@@ -1,6 +1,8 @@
 import socket
 import _thread
-import sys
+import pickle
+
+from player import Player
 
 # Server contains the ip address
 server = "192.168.0.102"
@@ -18,7 +20,7 @@ except socket.error as e:
 s.listen(2)
 print("Server started. Waiting for connection")
 
-pos = [(0, 0), (100, 100)]
+players = [Player(0, 0, 50, 50, (255, 0, 0)), Player(100, 100, 50, 50, (0, 0, 255))]
 
 
 def threaded_client(conn, player):
@@ -29,48 +31,29 @@ def threaded_client(conn, player):
     :return: None
     """
 
-    conn.send(str.encode(make_pos(pos[player])))
+    conn.send(pickle.dumps(players[player]))
     reply = ""
     while True:
         try:
-            data = read_pos(conn.recv(2048).decode())
-            pos[player] = data
+            data = pickle.loads(conn.recv(2048))
+            players[player] = data
 
             if not data:
                 print('Disconnected')
                 break
             else:
-                reply = make_pos(pos[1 - player])
+                reply = players[1 - player]
 
                 print("Recieved: ", data)
                 print("Sending: ", reply)
 
-                conn.sendall(str.encode(reply))
+                conn.sendall(pickle.dumps(reply))
 
         except socket.error as e:
             print(e)
             break
     print("Lost connection")
     conn.close()
-
-
-def read_pos(pos):
-    """
-    Converts string data coming from server to tuple
-    :param pos: string data
-    :return: position tuple
-    """
-    pos = pos.split(',')
-    return int(pos[0]), int(pos[1])
-
-
-def make_pos(tup):
-    """
-    Converts tuple data from client to sendable server string
-    :param tup: tuple data
-    :return: string data
-    """
-    return str(tup[0]) + ',' + str(tup[1])
 
 
 current_player = 0
