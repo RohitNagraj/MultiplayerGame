@@ -36,10 +36,12 @@ def main():
 
     # Create a new client
     n = Network()
-
+    p1 = n.get_p()
     while run:
 
         clock.tick(60)
+
+        p2 = n.send(p1)
 
         # To check if the game has to be quit
         for event in pygame.event.get():
