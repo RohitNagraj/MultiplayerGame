@@ -12,3 +12,5 @@ When one client moves his player, it is reflected in real-time to the other clie
 
 ## Limitations
 For now, the server only supports 2 clients at any given time.<br />
+
+![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)
